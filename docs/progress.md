@@ -27,6 +27,8 @@
   evidence rejection, grounded email drafts, and bounded conversation history.
 - Step 11B: Added a portfolio-ready root README, architecture and setup notes,
   honest limitations, test commands, and Git ignore/secret checks.
+- Step 11C: Added privacy-safe iOS Simulator screenshots and documented the
+  complete application working flow.
 
 ## Concepts learned
 
@@ -63,6 +65,8 @@
   belong in slower integration or evaluation suites, not basic unit tests.
 - A strong portfolio README explains tradeoffs and limitations instead of
   claiming production readiness that the code does not have.
+- Public screenshots should use empty or fake data so personal resume and job
+  information never becomes part of Git history.
 
 ## Weak concepts
 
@@ -76,4 +80,4 @@
 
 ## Next step
 
-- Review the full change set, then create the initial Git commit after approval.
+- Record a short end-to-end demo with fake resume data for the portfolio.

@@ -18,6 +18,40 @@ The working MVP includes:
 - Expo mobile screens for upload, analysis, chat, and Draft Email
 - Focused deterministic tests for the safety-critical backend logic
 
+## App screenshots
+
+<table>
+  <tr>
+    <th>1. Resume upload</th>
+    <th>2. Job analysis</th>
+    <th>3. AI chat</th>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/resume-upload.png" alt="Resume upload screen" width="240"></td>
+    <td><img src="docs/screenshots/job-analysis.png" alt="Job analysis screen" width="240"></td>
+    <td><img src="docs/screenshots/ai-chat.png" alt="AI chat screen" width="240"></td>
+  </tr>
+</table>
+
+The screenshots use empty states so no private resume or job-description data is
+published. The blue gear is Expo Go's development menu and is not part of the
+application UI.
+
+## Working flow
+
+1. The user selects a PDF. The mobile app checks its type and size, then uploads
+   it to `POST /ingest` as multipart form data.
+2. FastAPI verifies the PDF signature, extracts its text, splits it into
+   overlapping chunks, generates embeddings, and stores them in Chroma.
+3. The user pastes a job description. `POST /analyze` retrieves resume evidence,
+   classifies each requirement, verifies exact evidence, and calculates a
+   weighted match score in backend code.
+4. `POST /chat` continues the conversation using a bounded conversation ID. The
+   model chooses a tool, Pydantic validates its arguments, and the backend runs
+   `search_my_experience`, `score_match`, or `draft_email`.
+5. Answers and email drafts are grounded in stored resume evidence. Unsupported
+   experience is rejected instead of being added to the response.
+
 ## Architecture
 
 ```mermaid
