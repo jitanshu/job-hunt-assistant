@@ -28,7 +28,7 @@ type ChatMessage = {
 const initialMessage: ChatMessage = {
   id: 'welcome',
   role: 'assistant',
-  content: 'Resume ya analyzed job ke baare mein kuch bhi poochho.',
+  content: 'Ask anything about your resume or the analyzed job.',
 };
 
 export default function ChatScreen() {
@@ -53,7 +53,7 @@ export default function ChatScreen() {
     }
 
     if (cleanedMessage.length < 2 || cleanedMessage.length > 1_000) {
-      setError('Message 2 se 1,000 characters ke beech honi chahiye.');
+      setError('The message must contain between 2 and 1,000 characters.');
       return;
     }
 
@@ -86,7 +86,7 @@ export default function ChatScreen() {
         },
       ]);
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Chat request fail hui.');
+      setError(caughtError instanceof Error ? caughtError.message : 'Chat request failed.');
     } finally {
       setIsSending(false);
     }
@@ -94,11 +94,11 @@ export default function ChatScreen() {
 
   function draftEmail() {
     if (jobDescription.trim().length < 50) {
-      setError('Email draft se pehle job description analyze karo.');
+      setError('Analyze a job description before drafting an email.');
       return;
     }
 
-    void sendMessage('Is analyzed job ke liye ek short application email draft karo.');
+    void sendMessage('Draft a concise application email for the analyzed job.');
   }
 
   return (
@@ -154,7 +154,7 @@ export default function ChatScreen() {
           {isSending && (
             <View style={[styles.bubble, styles.assistantBubble, styles.loadingBubble]}>
               <ActivityIndicator color="#4F46E5" size="small" />
-              <Text style={styles.loadingText}>Soch raha hai…</Text>
+              <Text style={styles.loadingText}>Thinking…</Text>
             </View>
           )}
         </ScrollView>
@@ -175,7 +175,7 @@ export default function ChatScreen() {
               setInput(value);
               setError(null);
             }}
-            placeholder="Resume ke baare mein poochho…"
+            placeholder="Ask about your resume…"
             placeholderTextColor="#9CA3AF"
             style={styles.input}
             value={input}

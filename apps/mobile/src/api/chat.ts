@@ -26,7 +26,7 @@ function getApiUrl() {
   const apiUrl = process.env.EXPO_PUBLIC_API_URL?.replace(/\/$/, '');
 
   if (!apiUrl) {
-    throw new Error('EXPO_PUBLIC_API_URL set nahi hai. Mobile ki .env file check karo.');
+    throw new Error('EXPO_PUBLIC_API_URL is not configured. Check the mobile .env file.');
   }
 
   return apiUrl;
@@ -50,7 +50,7 @@ export async function sendChatMessage({
   });
 
   if (!response.ok) {
-    let errorMessage = `Chat request fail hui (${response.status})`;
+    let errorMessage = `Chat request failed (${response.status})`;
 
     try {
       const errorBody = (await response.json()) as ErrorResponse;
@@ -58,7 +58,7 @@ export async function sendChatMessage({
         errorMessage = errorBody.detail;
       }
     } catch {
-      // Backend ne JSON error nahi bheja, isliye status wala message dikhega.
+      // Keep the status-based message when the backend does not return JSON.
     }
 
     throw new Error(errorMessage);

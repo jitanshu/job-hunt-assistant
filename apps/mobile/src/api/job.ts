@@ -29,7 +29,7 @@ function getApiUrl() {
   const apiUrl = process.env.EXPO_PUBLIC_API_URL?.replace(/\/$/, '');
 
   if (!apiUrl) {
-    throw new Error('EXPO_PUBLIC_API_URL set nahi hai. Mobile ki .env file check karo.');
+    throw new Error('EXPO_PUBLIC_API_URL is not configured. Check the mobile .env file.');
   }
 
   return apiUrl;
@@ -39,11 +39,11 @@ export function validateJobDescription(jobDescription: string) {
   const characterCount = jobDescription.trim().length;
 
   if (characterCount < MIN_JOB_DESCRIPTION_LENGTH) {
-    throw new Error(`Job description kam se kam ${MIN_JOB_DESCRIPTION_LENGTH} characters ki honi chahiye.`);
+    throw new Error(`The job description must contain at least ${MIN_JOB_DESCRIPTION_LENGTH} characters.`);
   }
 
   if (characterCount > MAX_JOB_DESCRIPTION_LENGTH) {
-    throw new Error(`Job description ${MAX_JOB_DESCRIPTION_LENGTH.toLocaleString()} characters se badi nahi ho sakti.`);
+    throw new Error(`The job description cannot exceed ${MAX_JOB_DESCRIPTION_LENGTH.toLocaleString()} characters.`);
   }
 }
 
@@ -60,7 +60,7 @@ export async function analyzeJobDescription(jobDescription: string): Promise<Job
   });
 
   if (!response.ok) {
-    let message = `Analysis fail hua (${response.status})`;
+    let message = `Analysis failed (${response.status})`;
 
     try {
       const errorBody = (await response.json()) as ErrorResponse;
@@ -68,7 +68,7 @@ export async function analyzeJobDescription(jobDescription: string): Promise<Job
         message = errorBody.detail;
       }
     } catch {
-      // Backend ne JSON error nahi bheja, isliye status wala message dikhega.
+      // Keep the status-based message when the backend does not return JSON.
     }
 
     throw new Error(message);

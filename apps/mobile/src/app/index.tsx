@@ -47,7 +47,7 @@ export default function ResumeUploadScreen() {
       setResume(selectedResume);
     } catch (caughtError) {
       setResume(null);
-      setError(caughtError instanceof Error ? caughtError.message : 'PDF choose nahi ho paayi.');
+      setError(caughtError instanceof Error ? caughtError.message : 'Unable to select the PDF.');
     }
   }
 
@@ -63,7 +63,7 @@ export default function ResumeUploadScreen() {
     try {
       setResult(await uploadResume(resume));
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Resume upload fail hua.');
+      setError(caughtError instanceof Error ? caughtError.message : 'Resume upload failed.');
     } finally {
       setIsUploading(false);
     }
@@ -73,9 +73,9 @@ export default function ResumeUploadScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.step}>STEP 1 OF 3</Text>
-        <Text style={styles.title}>Apna resume upload karo</Text>
+        <Text style={styles.title}>Upload your resume</Text>
         <Text style={styles.description}>
-          PDF se experience niklega aur job matching ke liye securely process hoga.
+          We will extract your experience and securely process it for job matching.
         </Text>
 
         <Pressable
@@ -84,7 +84,7 @@ export default function ResumeUploadScreen() {
           style={({ pressed }) => [styles.picker, pressed && styles.pressed]}
         >
           <Text style={styles.pickerIcon}>PDF</Text>
-          <Text style={styles.pickerTitle}>{resume ? resume.name : 'PDF choose karo'}</Text>
+          <Text style={styles.pickerTitle}>{resume ? resume.name : 'Choose a PDF'}</Text>
           <Text style={styles.pickerHint}>
             {resume ? readableFileSize(resume.size) : 'Maximum file size: 5 MB'}
           </Text>
@@ -115,7 +115,7 @@ export default function ResumeUploadScreen() {
 
         {result && (
           <View style={[styles.messageCard, styles.successCard]}>
-            <Text style={styles.successTitle}>Resume ready hai ✓</Text>
+            <Text style={styles.successTitle}>Resume is ready ✓</Text>
             <Text style={styles.successText}>
               {result.page_count} pages · {result.chunk_count} chunks · {result.character_count}{' '}
               characters
@@ -125,7 +125,7 @@ export default function ResumeUploadScreen() {
               onPress={() => router.push('/analyze')}
               style={({ pressed }) => [styles.nextButton, pressed && styles.pressed]}
             >
-              <Text style={styles.nextButtonText}>Job analyze karo →</Text>
+              <Text style={styles.nextButtonText}>Analyze a job →</Text>
             </Pressable>
           </View>
         )}

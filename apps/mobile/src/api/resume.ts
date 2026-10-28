@@ -21,7 +21,7 @@ function getApiUrl() {
   const apiUrl = process.env.EXPO_PUBLIC_API_URL?.replace(/\/$/, '');
 
   if (!apiUrl) {
-    throw new Error('EXPO_PUBLIC_API_URL set nahi hai. Mobile ki .env file check karo.');
+    throw new Error('EXPO_PUBLIC_API_URL is not configured. Check the mobile .env file.');
   }
 
   return apiUrl;
@@ -31,11 +31,11 @@ export function validateResume(asset: DocumentPickerAsset) {
   const isPdf = asset.mimeType === 'application/pdf' || asset.name.toLowerCase().endsWith('.pdf');
 
   if (!isPdf) {
-    throw new Error('Sirf PDF resume upload kar sakte ho.');
+    throw new Error('Only PDF resumes can be uploaded.');
   }
 
   if (asset.size && asset.size > MAX_PDF_SIZE_BYTES) {
-    throw new Error('PDF 5 MB ya usse chhoti honi chahiye.');
+    throw new Error('The PDF must be 5 MB or smaller.');
   }
 }
 
@@ -57,7 +57,7 @@ export async function uploadResume(asset: DocumentPickerAsset): Promise<IngestRe
   });
 
   if (!response.ok) {
-    let message = `Upload fail hua (${response.status})`;
+    let message = `Upload failed (${response.status})`;
 
     try {
       const errorBody = (await response.json()) as ErrorResponse;
@@ -65,7 +65,7 @@ export async function uploadResume(asset: DocumentPickerAsset): Promise<IngestRe
         message = errorBody.detail;
       }
     } catch {
-      // Backend ne JSON error nahi bheja, isliye status wala message dikhega.
+      // Keep the status-based message when the backend does not return JSON.
     }
 
     throw new Error(message);

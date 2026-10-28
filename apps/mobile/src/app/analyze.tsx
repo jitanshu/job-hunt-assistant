@@ -71,7 +71,7 @@ export default function AnalyzeScreen() {
     try {
       setResult(await analyzeJobDescription(jobDescription));
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : 'Job analysis fail hua.');
+      setError(caughtError instanceof Error ? caughtError.message : 'Job analysis failed.');
     } finally {
       setIsAnalyzing(false);
     }
@@ -85,9 +85,9 @@ export default function AnalyzeScreen() {
         </Pressable>
 
         <Text style={styles.step}>STEP 2 OF 3</Text>
-        <Text style={styles.title}>Job description check karo</Text>
+        <Text style={styles.title}>Analyze a job description</Text>
         <Text style={styles.description}>
-          Puri job description paste karo. Result sirf uploaded resume ke proof par banega.
+          Paste the full job description. Results use only evidence from your uploaded resume.
         </Text>
 
         <TextInput
@@ -97,7 +97,7 @@ export default function AnalyzeScreen() {
             setJobDescription(value);
             setError(null);
           }}
-          placeholder="Job responsibilities aur required skills yahan paste karo…"
+          placeholder="Paste the job responsibilities and required skills…"
           placeholderTextColor="#9CA3AF"
           style={styles.input}
           textAlignVertical="top"
@@ -137,20 +137,20 @@ export default function AnalyzeScreen() {
             </View>
 
             <SkillList
-              emptyMessage="Abhi koi clear match nahi mila."
+              emptyMessage="No clear matches found yet."
               skills={result.matching_skills}
-              title="Match ho raha hai"
+              title="Matching skills"
               tone="success"
             />
             <SkillList
-              emptyMessage="Koi missing requirement nahi mili."
+              emptyMessage="No missing requirements found."
               skills={result.missing_skills}
               title="Missing proof"
               tone="warning"
             />
 
             <View style={styles.requirementsSection}>
-              <Text style={styles.sectionTitle}>Requirement-wise reason</Text>
+              <Text style={styles.sectionTitle}>Requirement breakdown</Text>
               {result.requirements.map((item, index) => (
                 <View key={`${item.requirement}-${index}`} style={styles.requirementCard}>
                   <View style={styles.requirementHeader}>
@@ -167,7 +167,7 @@ export default function AnalyzeScreen() {
             </View>
 
             <View style={styles.methodCard}>
-              <Text style={styles.methodTitle}>Score ka hisaab</Text>
+              <Text style={styles.methodTitle}>Scoring method</Text>
               <Text style={styles.methodText}>{result.scoring_method}</Text>
             </View>
 
@@ -176,7 +176,7 @@ export default function AnalyzeScreen() {
               onPress={() => router.push('/chat')}
               style={({ pressed }) => [styles.chatButton, pressed && styles.pressed]}
             >
-              <Text style={styles.chatButtonText}>AI chat kholo →</Text>
+              <Text style={styles.chatButtonText}>Open AI chat →</Text>
             </Pressable>
           </View>
         )}
